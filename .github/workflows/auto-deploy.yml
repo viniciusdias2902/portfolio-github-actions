@@ -18,10 +18,14 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/npd_key
           chmod 600 ~/.ssh/npd_key
+          
+      - name: Adicionar chave do servidor ao known_hosts
+        run: |
+          ssh-keyscan -H 170.245.33.220 >> ~/.ssh/known_hosts
 
       - name: Deploy para o servidor
         run: |
-          ssh desafio@170.245.33.220 -i ~/.ssh/npd_key -p 2010 << 'EOF'
+          ssh -t desafio@170.245.33.220 -i ~/.ssh/npd_key -p 2010 << 'EOF'
             cd nginx-docker/github-actions/
             git fetch origin
             git reset --hard origin/main
