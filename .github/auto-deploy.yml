@@ -1,0 +1,29 @@
+name: Deploy Site
+
+on:
+  push:
+    branches:
+      - main 
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar chave SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/npd_key
+          chmod 600 ~/.ssh/npd_key
+
+      - name: Deploy para o servidor
+        run: |
+          ssh desafio@170.245.33.220 -i ~/.ssh/npd_key -p 2010 << 'EOF'
+            cd nginx-docker/github-actions/
+            git fetch origin
+            git reset --hard origin/mai
+            docker-compose up --build -d
+          EOF
