@@ -24,6 +24,6 @@ jobs:
           ssh desafio@170.245.33.220 -i ~/.ssh/npd_key -p 2010 << 'EOF'
             cd nginx-docker/github-actions/
             git fetch origin
-            git reset --hard origin/mai
+            git reset --hard origin/main
             docker-compose up --build -d
           EOF
