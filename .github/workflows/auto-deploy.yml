@@ -31,5 +31,4 @@ jobs:
             cd nginx-docker/github-actions/
             git fetch origin
             git reset --hard origin/main
-            echo "Boon5uPh" | sudo -Ssudo docker-compose up --build -d
           EOF
